@@ -1,0 +1,2974 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SocialBoost — Jasa Suntik Sosial Media & APK</title>
+    <link rel="icon" href="https://files.catbox.moe/c1lke8.jpg" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ================================================================
+           ROOT & RESET
+           ================================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C3CE1;
+            --primary-dark: #5228B5;
+            --primary-light: #8B6FE8;
+            --secondary: #00D4FF;
+            --whatsapp: #25D366;
+            --whatsapp-dark: #128C7E;
+            --success: #22C55E;
+            --success-dark: #16A34A;
+            --dark: #0A0A1A;
+            --dark-2: #14142D;
+            --dark-3: #1E1E3F;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --white: #FFFFFF;
+            --gray-400: #94A3B8;
+            --gray-500: #64748B;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 99px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* LOADING SCREEN */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #loading-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(108, 60, 225, 0.3);
+            animation: pulseGlow 2s infinite;
+            z-index: 1;
+        }
+
+        .loading-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(108, 60, 225, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 80px rgba(108, 60, 225, 0.6), 0 0 120px rgba(0, 212, 255, 0.2);
+            }
+        }
+
+        .loading-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-top: 20px;
+            z-index: 1;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .loading-bar {
+            width: 280px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            margin-top: 16px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .loading-bar-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 99px;
+            transition: width 0.2s ease;
+        }
+
+        .loading-percent {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 8px;
+            z-index: 1;
+        }
+
+        .loading-skip {
+            margin-top: 16px;
+            background: none;
+            border: none;
+            color: var(--gray-500);
+            font-size: 0.85rem;
+            cursor: pointer;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .loading-skip:hover {
+            color: white;
+        }
+
+        /* ================================================================
+           WHATSAPP FLOATING BUBBLE
+           ================================================================ */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--whatsapp);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: var(--transition);
+            text-decoration: none;
+            animation: pulseWaFloat 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.12);
+            box-shadow: 0 10px 50px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float .tooltip {
+            position: absolute;
+            right: 72px;
+            background: var(--dark-2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            border: 1px solid var(--glass-border);
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .whatsapp-float:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-4px);
+        }
+
+        .whatsapp-float .pulse-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 3px solid var(--whatsapp);
+            animation: ringPulse 2s infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes pulseWaFloat {
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 6px 30px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                transform: scale(1.04);
+                box-shadow: 0 6px 50px rgba(37, 211, 102, 0.6);
+            }
+        }
+
+        @keyframes ringPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* ================================================================
+           TOAST NOTIFICATION
+           ================================================================ */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 24px;
+            z-index: 5000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 380px;
+            width: 100%;
+        }
+
+        .toast {
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            background: var(--dark-2);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            animation: toastSlideIn 0.4s ease forwards;
+            color: white;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(12px);
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.hide {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
+        @keyframes toastSlideIn {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast .toast-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+        .toast.error .toast-icon {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+        .toast.info .toast-icon {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+        .toast.warning .toast-icon {
+            background: rgba(245, 158, 11, 0.2);
+            color: #F59E0B;
+        }
+
+        .toast .toast-content {
+            flex: 1;
+        }
+
+        .toast .toast-content .toast-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .toast .toast-content .toast-message {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 2px;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: var(--gray-500);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            color: white;
+        }
+
+        .toast .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .toast .toast-progress .fill {
+            height: 100%;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+            animation: toastProgress 4s linear forwards;
+        }
+
+        .toast.success .toast-progress .fill {
+            background: var(--success);
+        }
+        .toast.error .toast-progress .fill {
+            background: #EF4444;
+        }
+        .toast.info .toast-progress .fill {
+            background: #3B82F6;
+        }
+        .toast.warning .toast-progress .fill {
+            background: #F59E0B;
+        }
+
+        @keyframes toastProgress {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+
+        /* ================================================================
+           NAVBAR & PAGES (SAMA SEPERTI SEBELUMNYA)
+           ================================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 32px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 26, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .navbar-brand .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--whatsapp);
+        }
+
+        .navbar-brand .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .navbar-brand .logo-text {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .navbar-brand .logo-text span {
+            color: var(--whatsapp);
+        }
+
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            padding: 8px 18px;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .navbar-menu a:hover {
+            color: white;
+            background: var(--glass);
+        }
+
+        .navbar-menu a.active {
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        }
+
+        .navbar-menu .cart-btn {
+            padding: 8px 18px;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--whatsapp), var(--whatsapp-dark));
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .navbar-menu .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .navbar-menu .cart-btn .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .navbar-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .navbar-hamburger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: white;
+            border-radius: 99px;
+            transition: var(--transition);
+        }
+
+        .navbar-hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        .navbar-hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .navbar-hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .navbar-mobile {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(10, 10, 26, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 80px 32px 32px;
+            flex-direction: column;
+            gap: 8px;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        .navbar-mobile.open {
+            display: flex;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .navbar-mobile a {
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .navbar-mobile a:hover {
+            background: var(--glass);
+            color: white;
+        }
+
+        .navbar-mobile a.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .navbar-mobile .wa-link {
+            background: rgba(37, 211, 102, 0.15);
+            color: var(--whatsapp) !important;
+            border: 1px solid rgba(37, 211, 102, 0.2);
+        }
+
+        .navbar-mobile .wa-link:hover {
+            background: rgba(37, 211, 102, 0.25);
+        }
+
+        /* PAGES */
+        .page {
+            display: none;
+            padding-top: 72px;
+            min-height: 100vh;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header .badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 99px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--secondary);
+            background: rgba(0, 212, 255, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .section-header h2 span {
+            color: var(--secondary);
+        }
+
+        .section-header p {
+            color: var(--gray-400);
+            font-size: 1.05rem;
+            margin-top: 4px;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .hero-banner img {
+            width: 100%;
+            height: auto;
+            max-height: 420px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-banner .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.7), rgba(108, 60, 225, 0.3));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .hero-banner .overlay h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            max-width: 500px;
+            margin-bottom: 16px;
+        }
+
+        .hero-banner .overlay h1 span {
+            color: var(--secondary);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 12px 28px;
+            border-radius: 99px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(108, 60, 225, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 12px 28px;
+            border-radius: 99px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-wa {
+            padding: 12px 28px;
+            border-radius: 99px;
+            background: linear-gradient(135deg, var(--whatsapp), var(--whatsapp-dark));
+            color: white;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-wa:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        /* FEATURES */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--dark-2);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card .icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--secondary);
+            margin: 0 auto 14px;
+        }
+
+        .feature-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .feature-card p {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* DASHBOARD */
+        .dashboard-section {
+            background: var(--dark-2);
+            border-radius: var(--radius);
+            border: 1px solid var(--glass-border);
+            padding: 32px;
+            margin-top: 40px;
+        }
+
+        .dashboard-section .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .dashboard-section .dash-header h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .dashboard-section .dash-header h3 span {
+            color: var(--secondary);
+        }
+
+        .dashboard-section .dash-header .badge-dash {
+            font-size: 0.7rem;
+            padding: 4px 14px;
+            border-radius: 99px;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--secondary);
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--dark-3);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .stat-card .label {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+        }
+
+        .order-history-box {
+            background: var(--dark-3);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        .order-history-box h4 {
+            margin-bottom: 12px;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .order-item .date {
+            color: var(--gray-400);
+        }
+        .order-item .product {
+            color: white;
+        }
+        .order-item .qty {
+            color: var(--gray-400);
+        }
+        .order-item .total {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        .order-item .status {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 99px;
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+        }
+
+        /* PRODUCTS */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--dark-2);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+
+        .product-card .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 99px;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-card .badge.popular {
+            background: rgba(239, 68, 68, 0.15);
+            color: #EF4444;
+        }
+
+        .product-card .badge.apk {
+            background: rgba(251, 191, 36, 0.15);
+            color: #FBBF24;
+        }
+
+        .product-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .product-card .price {
+            font-size: 0.9rem;
+            color: var(--gray-400);
+            margin-bottom: 8px;
+        }
+
+        .product-card .price strong {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .product-card .desc {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .product-card .min-order {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            background: var(--glass);
+            padding: 3px 10px;
+            border-radius: 99px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .product-card .order-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-card .order-form .input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .product-card .order-form .input-group label {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            white-space: nowrap;
+        }
+
+        .product-card .order-form .input-group input {
+            flex: 1;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: var(--dark-3);
+            color: white;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            outline: none;
+            font-family: inherit;
+            width: 100%;
+            min-width: 50px;
+        }
+
+        .product-card .order-form .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 60, 225, 0.2);
+        }
+
+        .product-card .order-form .input-group input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+        .product-card .order-form .input-group input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .product-card .order-form .btn-buy {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .product-card .order-form .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 60, 225, 0.4);
+        }
+
+        .product-card .order-form .btn-buy:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .product-card .warning-msg {
+            font-size: 0.75rem;
+            color: #EF4444;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            display: none;
+            margin-top: 4px;
+        }
+
+        .product-card .warning-msg.show {
+            display: block;
+        }
+
+        /* QRIS MODAL */
+        .qris-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .qris-modal.open {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .qris-modal .modal-box {
+            background: var(--dark-2);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            max-width: 480px;
+            width: 100%;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qris-modal .modal-box .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .qris-modal .modal-box .close-btn:hover {
+            color: white;
+        }
+
+        .qris-modal .modal-box .qr-image {
+            width: 280px;
+            height: 280px;
+            margin: 16px auto;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+        }
+
+        .qris-modal .modal-box .qr-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qris-modal .modal-box .order-summary {
+            background: var(--glass);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            margin: 12px 0;
+            text-align: left;
+        }
+
+        .qris-modal .modal-box .order-summary .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.9rem;
+            color: var(--gray-400);
+        }
+
+        .qris-modal .modal-box .order-summary .row .label {
+            color: var(--gray-500);
+        }
+
+        .qris-modal .modal-box .order-summary .row .value {
+            color: white;
+            font-weight: 600;
+        }
+
+        .qris-modal .modal-box .order-summary .row .value.amount {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .qris-modal .modal-box .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .qris-modal .modal-box .btn-copy {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .qris-modal .modal-box .btn-copy:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--secondary);
+        }
+
+        .qris-modal .modal-box .btn-copy.copied {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .qris-modal .modal-box .btn-wa-modal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--whatsapp), var(--whatsapp-dark));
+            color: white;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            font-family: inherit;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .qris-modal .modal-box .btn-wa-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        .qris-modal .modal-box .btn-cancel-order {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .qris-modal .modal-box .btn-cancel-order:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #EF4444;
+            transform: scale(1.01);
+        }
+
+        .qris-modal .modal-box .btn-success-payment {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--success), var(--success-dark));
+            color: white;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .qris-modal .modal-box .btn-success-payment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .qris-modal .modal-box .payment-info {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+
+        .qris-modal .modal-box .payment-info strong {
+            color: var(--whatsapp);
+        }
+
+        .qris-modal .modal-box .payment-info .highlight {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .qris-modal .modal-box .divider-line {
+            border: none;
+            border-top: 1px solid var(--glass-border);
+            margin: 12px 0;
+        }
+
+        /* SUCCESS OVERLAY */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: successFadeIn 0.5s ease;
+        }
+
+        .success-overlay.open {
+            display: flex;
+        }
+
+        @keyframes successFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-overlay .checkmark {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), var(--success-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            box-shadow: 0 0 80px rgba(34, 197, 94, 0.4);
+            animation: checkBounce 0.8s ease;
+        }
+
+        @keyframes checkBounce {
+            0% {
+                transform: scale(0) rotate(-30deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(5deg);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(0.9) rotate(-3deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .success-overlay h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-top: 24px;
+            color: white;
+        }
+
+        .success-overlay h2 span {
+            color: var(--success);
+        }
+
+        .success-overlay p {
+            color: var(--gray-400);
+            font-size: 1rem;
+            margin-top: 8px;
+        }
+
+        .success-overlay .loading-bar-success {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .success-overlay .loading-bar-success .fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--success), var(--secondary));
+            border-radius: 99px;
+            animation: successProgress 2s ease forwards;
+        }
+
+        @keyframes successProgress {
+            0% {
+                width: 0%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        .success-overlay .sub-text {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 12px;
+        }
+
+        /* CONTACT / WHATSAPP */
+        .wa-page {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wa-card {
+            background: var(--dark-2);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 48px 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .wa-card:hover {
+            border-color: var(--whatsapp);
+            box-shadow: 0 20px 60px rgba(37, 211, 102, 0.1);
+        }
+
+        .wa-card .wa-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--whatsapp), var(--whatsapp-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 60px rgba(37, 211, 102, 0.3);
+            animation: pulseWa 2s infinite;
+        }
+
+        @keyframes pulseWa {
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(37, 211, 102, 0.6), 0 0 90px rgba(37, 211, 102, 0.2);
+            }
+        }
+
+        .wa-card h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .wa-card h2 span {
+            color: var(--whatsapp);
+        }
+
+        .wa-card p {
+            color: var(--gray-400);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .wa-card .wa-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--whatsapp);
+            background: rgba(37, 211, 102, 0.1);
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(37, 211, 102, 0.2);
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+
+        .wa-form {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .wa-form .form-group {
+            margin-bottom: 14px;
+        }
+
+        .wa-form .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--gray-400);
+            margin-bottom: 4px;
+        }
+
+        .wa-form .form-group select,
+        .wa-form .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: var(--dark-3);
+            color: white;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .wa-form .form-group select:focus,
+        .wa-form .form-group input:focus {
+            border-color: var(--whatsapp);
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+
+        .wa-form .form-group select option {
+            background: var(--dark-3);
+            color: white;
+        }
+
+        .wa-form .total-display {
+            background: var(--glass);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 12px 0;
+        }
+
+        .btn-wa-large {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 40px;
+            border-radius: 99px;
+            background: linear-gradient(135deg, var(--whatsapp), var(--whatsapp-dark));
+            color: white;
+            border: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            font-family: inherit;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-wa-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        .wa-card .wa-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .wa-card .wa-divider::before,
+        .wa-card .wa-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border);
+        }
+
+        .wa-card .wa-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            text-align: left;
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+
+        .wa-card .wa-features .item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+        }
+
+        .wa-card .wa-features .item i {
+            color: var(--whatsapp);
+            font-size: 0.9rem;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--dark-2);
+            border-top: 1px solid var(--glass-border);
+            padding: 32px;
+            text-align: center;
+        }
+
+        .footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer .social {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .footer .social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            background: var(--whatsapp);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer p {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        .footer p span {
+            color: var(--whatsapp);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+                height: 64px;
+            }
+            .navbar-menu {
+                display: none;
+            }
+            .navbar-hamburger {
+                display: flex;
+            }
+
+            .page {
+                padding-top: 64px;
+            }
+
+            .hero-banner .overlay {
+                padding: 24px;
+            }
+            .hero-banner .overlay h1 {
+                font-size: 1.6rem;
+            }
+
+            .section {
+                padding: 40px 0;
+            }
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .product-card {
+                padding: 16px 14px;
+            }
+            .product-card .icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            .product-card h4 {
+                font-size: 0.9rem;
+            }
+            .product-card .price {
+                font-size: 0.8rem;
+            }
+            .product-card .desc {
+                font-size: 0.75rem;
+            }
+            .product-card .order-form .input-group {
+                flex-wrap: wrap;
+            }
+            .product-card .order-form .input-group label {
+                width: 100%;
+            }
+
+            .qris-modal .modal-box .qr-image {
+                width: 200px;
+                height: 200px;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .wa-card {
+                padding: 32px 24px;
+            }
+
+            .wa-card .wa-features {
+                grid-template-columns: 1fr;
+            }
+
+            .wa-card .wa-number {
+                font-size: 1.1rem;
+                padding: 10px 16px;
+            }
+
+            .dashboard-section {
+                padding: 20px;
+            }
+
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .success-overlay .checkmark {
+                width: 80px;
+                height: 80px;
+                font-size: 2.8rem;
+            }
+            .success-overlay h2 {
+                font-size: 1.6rem;
+            }
+
+            .whatsapp-float {
+                width: 54px;
+                height: 54px;
+                font-size: 1.8rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-float .tooltip {
+                display: none;
+            }
+
+            .toast-container {
+                top: 72px;
+                right: 12px;
+                left: 12px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-banner .overlay h1 {
+                font-size: 1.2rem;
+            }
+            .qris-modal .modal-box {
+                padding: 20px;
+            }
+            .qris-modal .modal-box .qr-image {
+                width: 160px;
+                height: 160px;
+            }
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-actions {
+                flex-direction: column;
+            }
+            .hero-actions .btn-primary,
+            .hero-actions .btn-secondary {
+                text-align: center;
+                justify-content: center;
+            }
+            .wa-card .btn-wa-large {
+                font-size: 0.95rem;
+                padding: 14px 20px;
+            }
+            .dashboard-section .dash-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .qris-modal .modal-box .action-buttons {
+                gap: 8px;
+            }
+            .order-item {
+                font-size: 0.75rem;
+            }
+            .success-overlay .checkmark {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            .success-overlay h2 {
+                font-size: 1.2rem;
+            }
+            .whatsapp-float {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================================================================
+    LOADING SCREEN
+    ================================================================ -->
+    <div id="loading-screen">
+        <div class="loading-logo">
+            <img src="https://files.catbox.moe/c1lke8.jpg" alt="Logo" />
+        </div>
+        <div class="loading-title">SocialBoost</div>
+        <div class="loading-bar">
+            <div class="loading-bar-inner" id="loading-bar"></div>
+        </div>
+        <div class="loading-percent" id="loading-percent">0%</div>
+        <button class="loading-skip" onclick="skipLoading()">Skip ›</button>
+    </div>
+
+    <!-- ================================================================
+    TOAST NOTIFICATION CONTAINER
+    ================================================================ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ================================================================
+    WHATSAPP FLOATING BUBBLE
+    ================================================================ -->
+    <a href="https://wa.me/6283187714996" target="_blank" class="whatsapp-float" id="waFloat">
+        <span class="pulse-ring"></span>
+        <i class="fab fa-whatsapp"></i>
+        <span class="tooltip">Chat via WhatsApp</span>
+    </a>
+
+    <!-- ================================================================
+    SUCCESS OVERLAY (Animasi Centang)
+    ================================================================ -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="checkmark">
+            <i class="fas fa-check"></i>
+        </div>
+        <h2>Terima <span>Kasih!</span></h2>
+        <p>Pembayaran Anda telah berhasil dikonfirmasi.</p>
+        <div class="loading-bar-success">
+            <div class="fill"></div>
+        </div>
+        <p class="sub-text">Mengarahkan ke WhatsApp...</p>
+    </div>
+
+    <!-- ================================================================
+    NAVBAR
+    ================================================================ -->
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" onclick="navigateTo('beranda')">
+            <div class="logo">
+                <img src="https://files.catbox.moe/c1lke8.jpg" alt="Logo" />
+            </div>
+            <span class="logo-text">Social<span>Boost</span></span>
+        </a>
+
+        <ul class="navbar-menu" id="navMenu">
+            <a class="active" data-page="beranda" onclick="navigateTo('beranda')">Beranda</a>
+            <a data-page="produk" onclick="navigateTo('produk')">Produk</a>
+            <a data-page="contact" onclick="navigateTo('contact')" style="color:var(--whatsapp);">
+                <i class="fab fa-whatsapp"></i> Hubungi
+            </a>
+            <button class="cart-btn" onclick="navigateTo('produk')">
+                <i class="fas fa-shopping-cart"></i> Beli
+                <span class="badge" id="cartBadge">0</span>
+            </button>
+        </ul>
+
+        <button class="navbar-hamburger" id="hamburger" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="navbar-mobile" id="mobileMenu">
+        <a class="active" data-page="beranda" onclick="navigateTo('beranda'); closeMobile()">Beranda</a>
+        <a data-page="produk" onclick="navigateTo('produk'); closeMobile()">Produk</a>
+        <a data-page="contact" onclick="navigateTo('contact'); closeMobile()" class="wa-link">
+            <i class="fab fa-whatsapp"></i> Hubungi WA
+        </a>
+    </div>
+
+    <!-- ================================================================
+    PAGE: BERANDA + DASHBOARD
+    ================================================================ -->
+    <div class="page active" id="page-beranda">
+        <section class="hero section">
+            <div class="section-container">
+                <div class="hero-banner">
+                    <img src="https://files.catbox.moe/c1lke8.jpg" alt="Banner SocialBoost" />
+                    <div class="overlay">
+                        <h1>
+                            Tingkatkan <span>Social Media</span> Anda<br />
+                            Dengan Jasa Suntik & APK Terpercaya
+                        </h1>
+                        <div class="hero-actions">
+                            <a class="btn-primary" onclick="navigateTo('produk')">
+                                <i class="fas fa-shopping-cart"></i> Lihat Produk
+                            </a>
+                            <a class="btn-wa" href="https://wa.me/6283187714996" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Hubungi WA
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-bottom:20px;">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="badge">✨ Keunggulan</span>
+                    <h2>Mengapa <span>SocialBoost</span>?</h2>
+                    <p>Layanan terpercaya dengan kualitas terbaik</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-bolt"></i></div>
+                        <h4>Cepat & Aman</h4>
+                        <p>Proses instan dengan sistem keamanan terbaik</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                        <h4>Anti Drop</h4>
+                        <p>Follower berkualitas tinggi, tidak mudah hilang</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-credit-card"></i></div>
+                        <h4>Pembayaran Mudah</h4>
+                        <p>Bayar via QRIS, cepat dan praktis</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fab fa-whatsapp"></i></div>
+                        <h4>Support WA 24/7</h4>
+                        <p>Tim siap membantu Anda via WhatsApp</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-container">
+                <div class="dashboard-section">
+                    <div class="dash-header">
+                        <h3>📊 Dashboard <span>Penjualan</span></h3>
+                        <span class="badge-dash">Live</span>
+                    </div>
+
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="number" id="totalOrders">0</div>
+                            <div class="label">Total Pesanan</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number" id="totalRevenue">Rp 0</div>
+                            <div class="label">Total Pendapatan</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number" id="totalProducts">11</div>
+                            <div class="label">Total Produk</div>
+                        </div>
+                    </div>
+
+                    <div class="order-history-box">
+                        <h4>📋 Riwayat Pesanan</h4>
+                        <div id="orderHistory">
+                            <p style="color:var(--gray-500);text-align:center;padding:16px 0;font-size:0.85rem;">Belum ada pesanan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================================================================
+    PAGE: PRODUK (11 PRODUK) — DIPERCEPAT
+    ================================================================ -->
+    <div class="page" id="page-produk">
+        <section class="section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="badge">💎 Layanan</span>
+                    <h2>Pilih <span>Paket</span> Anda</h2>
+                    <p>Pilih layanan sesuai kebutuhan, isi jumlah, dan bayar via QRIS</p>
+                </div>
+
+                <div class="products-grid">
+                    <!-- Produk 1-11 (sama seperti sebelumnya) -->
+                    <!-- (Saya singkat untuk menghemat ruang, tapi semua produk tetap ada) -->
+                    <div class="product-card" data-product="ig">
+                        <div class="icon"><i class="fab fa-instagram"></i></div>
+                        <span class="badge popular">🔥 Populer</span>
+                        <h4>Instagram Flower</h4>
+                        <div class="price">Rp <strong id="igPrice">20</strong> / flower</div>
+                        <div class="desc">Tambah follower Instagram dengan cepat dan aman. Kualitas tinggi, tidak mudah drop.</div>
+                        <div class="min-order">Minimal 100 flower</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="igQty" value="100" min="100" onchange="updateTotal('ig')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="igTotal">Rp 2.000</span>
+                            </div>
+                            <div class="warning-msg" id="igWarning">⚠️ Minimal pembelian 100 flower!</div>
+                            <button class="btn-buy" onclick="buyProduct('ig')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="wa">
+                        <div class="icon"><i class="fab fa-whatsapp"></i></div>
+                        <span class="badge">📱 Populer</span>
+                        <h4>Pengikut WhatsApp</h4>
+                        <div class="price">Rp <strong id="waPrice">15</strong> / pengikut</div>
+                        <div class="desc">Tambah pengikut saluran WhatsApp dengan cepat. Pengikut aktif & berkualitas.</div>
+                        <div class="min-order">Minimal 50 pengikut</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="waQty" value="50" min="50" onchange="updateTotal('wa')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="waTotal">Rp 1.500</span>
+                            </div>
+                            <div class="warning-msg" id="waWarning">⚠️ Minimal pembelian 50 pengikut!</div>
+                            <button class="btn-buy" onclick="buyProduct('wa')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="tt">
+                        <div class="icon"><i class="fab fa-tiktok"></i></div>
+                        <span class="badge">🎵 Baru</span>
+                        <h4>TikTok Flower</h4>
+                        <div class="price">Rp <strong id="ttPrice">25</strong> / flower</div>
+                        <div class="desc">Tambah follower TikTok dengan cepat. Meningkatkan kredibilitas akun Anda.</div>
+                        <div class="min-order">Minimal 50 flower</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="ttQty" value="50" min="50" onchange="updateTotal('tt')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="ttTotal">Rp 3.500</span>
+                            </div>
+                            <div class="warning-msg" id="ttWarning">⚠️ Minimal pembelian 50 flower!</div>
+                            <button class="btn-buy" onclick="buyProduct('tt')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <!-- APK Products -->
+                    <div class="product-card" data-product="apk">
+                        <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+                        <span class="badge apk">📱 APK</span>
+                        <h4>Jasa Buat APK</h4>
+                        <div class="price">Rp <strong id="apkPrice">25.000</strong></div>
+                        <div class="desc">Buat aplikasi Android sesuai keinginan Anda. Custom UI/UX, siap pakai.</div>
+                        <div class="min-order">Minimal 1 APK</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="apkQty" value="1" min="1" onchange="updateTotal('apk')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="apkTotal">Rp 25.000</span>
+                            </div>
+                            <div class="warning-msg" id="apkWarning">⚠️ Minimal 1 APK!</div>
+                            <button class="btn-buy" onclick="buyProduct('apk')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="script">
+                        <div class="icon"><i class="fas fa-code"></i></div>
+                        <span class="badge apk">💻 Script</span>
+                        <h4>Script JpmXshare</h4>
+                        <div class="price">Rp <strong id="scriptPrice">15.000</strong></div>
+                        <div class="desc">Script JpmXshare premium, siap pakai untuk kebutuhan Anda.</div>
+                        <div class="min-order">Minimal 1 Script</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="scriptQty" value="1" min="1" onchange="updateTotal('script')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="scriptTotal">Rp 15.000</span>
+                            </div>
+                            <div class="warning-msg" id="scriptWarning">⚠️ Minimal 1 Script!</div>
+                            <button class="btn-buy" onclick="buyProduct('script')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="scwa">
+                        <div class="icon"><i class="fab fa-whatsapp"></i></div>
+                        <span class="badge apk">💬 Script</span>
+                        <h4>Jasa Buat Script WA</h4>
+                        <div class="price">Rp <strong id="scwaPrice">10.000</strong></div>
+                        <div class="desc">Buat script WhatsApp custom sesuai kebutuhan Anda.</div>
+                        <div class="min-order">Minimal 1 Script</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="scwaQty" value="1" min="1" onchange="updateTotal('scwa')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="scwaTotal">Rp 10.000</span>
+                            </div>
+                            <div class="warning-msg" id="scwaWarning">⚠️ Minimal 1 Script!</div>
+                            <button class="btn-buy" onclick="buyProduct('scwa')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <!-- BUG STORM Products -->
+                    <div class="product-card" data-product="bugday">
+                        <div class="icon"><i class="fas fa-bolt"></i></div>
+                        <span class="badge apk">⚡ BUG</span>
+                        <h4>APK BUG STORM X (Per Hari)</h4>
+                        <div class="price">Rp <strong id="bugdayPrice">1.000</strong> / hari</div>
+                        <div class="desc">Akses APK BUG STORM X per hari. Request durasi sesuai kebutuhan.</div>
+                        <div class="min-order">Minimal 1 hari</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Hari</label>
+                                <input type="number" id="bugdayQty" value="1" min="1" onchange="updateTotal('bugday')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="bugdayTotal">Rp 1.000</span>
+                            </div>
+                            <div class="warning-msg" id="bugdayWarning">⚠️ Minimal 1 hari!</div>
+                            <button class="btn-buy" onclick="buyProduct('bugday')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="bugmonth">
+                        <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                        <span class="badge apk">⚡ BUG</span>
+                        <h4>APK BUG STORM (1 Bulan)</h4>
+                        <div class="price">Rp <strong id="bugmonthPrice">9.000</strong></div>
+                        <div class="desc">Akses APK BUG STORM selama 1 bulan penuh.</div>
+                        <div class="min-order">Minimal 1 bulan</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="bugmonthQty" value="1" min="1" onchange="updateTotal('bugmonth')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="bugmonthTotal">Rp 9.000</span>
+                            </div>
+                            <div class="warning-msg" id="bugmonthWarning">⚠️ Minimal 1 bulan!</div>
+                            <button class="btn-buy" onclick="buyProduct('bugmonth')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="bugperm">
+                        <div class="icon"><i class="fas fa-infinity"></i></div>
+                        <span class="badge apk">⚡ BUG</span>
+                        <h4>APK BUG STORM (Permanen)</h4>
+                        <div class="price">Rp <strong id="bugpermPrice">13.000</strong></div>
+                        <div class="desc">Akses APK BUG STORM selamanya / permanen.</div>
+                        <div class="min-order">Minimal 1 akses</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="bugpermQty" value="1" min="1" onchange="updateTotal('bugperm')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="bugpermTotal">Rp 13.000</span>
+                            </div>
+                            <div class="warning-msg" id="bugpermWarning">⚠️ Minimal 1 akses!</div>
+                            <button class="btn-buy" onclick="buyProduct('bugperm')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="bugress">
+                        <div class="icon"><i class="fas fa-user-cog"></i></div>
+                        <span class="badge apk">⚡ BUG</span>
+                        <h4>APK BUG STORM RESSLER</h4>
+                        <div class="price">Rp <strong id="bugressPrice">18.000</strong></div>
+                        <div class="desc">Versi RESSLER dari APK BUG STORM dengan fitur premium.</div>
+                        <div class="min-order">Minimal 1 akses</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="bugressQty" value="1" min="1" onchange="updateTotal('bugress')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="bugressTotal">Rp 18.000</span>
+                            </div>
+                            <div class="warning-msg" id="bugressWarning">⚠️ Minimal 1 akses!</div>
+                            <button class="btn-buy" onclick="buyProduct('bugress')">Beli Sekarang</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-product="bugadmin">
+                        <div class="icon"><i class="fas fa-user-shield"></i></div>
+                        <span class="badge apk">⚡ BUG</span>
+                        <h4>ADMIN APK BUG STORM X</h4>
+                        <div class="price">Rp <strong id="bugadminPrice">23.000</strong></div>
+                        <div class="desc">Versi Admin dari APK BUG STORM X dengan akses penuh semua fitur.</div>
+                        <div class="min-order">Minimal 1 akses</div>
+                        <div class="order-form">
+                            <div class="input-group">
+                                <label>Jumlah</label>
+                                <input type="number" id="bugadminQty" value="1" min="1" onchange="updateTotal('bugadmin')" />
+                            </div>
+                            <div class="input-group" style="justify-content:space-between;">
+                                <span style="color:var(--gray-400);">Total:</span>
+                                <span style="font-weight:700;color:var(--secondary);font-size:1.1rem;" id="bugadminTotal">Rp 23.000</span>
+                            </div>
+                            <div class="warning-msg" id="bugadminWarning">⚠️ Minimal 1 akses!</div>
+                            <button class="btn-buy" onclick="buyProduct('bugadmin')">Beli Sekarang</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================================================================
+    PAGE: CONTACT / WHATSAPP
+    ================================================================ -->
+    <div class="page" id="page-contact">
+        <section class="section wa-page">
+            <div class="section-container">
+                <div class="wa-card">
+                    <div class="wa-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h2>Hubungi Kami via <span>WhatsApp</span></h2>
+                    <p>Pilih produk dan jumlah, lalu kirim bukti transfer otomatis.</p>
+
+                    <div class="wa-number">
+                        <i class="fab fa-whatsapp"></i> +62 831-8771-4996
+                    </div>
+
+                    <div class="wa-form">
+                        <div class="form-group">
+                            <label>Pilih Produk</label>
+                            <select id="waProduct" onchange="updateWaTotal()">
+                                <option value="Instagram Flower|20|100">Instagram Flower (Rp 20/flower, min 100)</option>
+                                <option value="Pengikut WhatsApp|15|50">Pengikut WhatsApp (Rp 15/pengikut, min 50)</option>
+                                <option value="TikTok Flower|25|50">TikTok Flower (Rp 25/flower, min 50)</option>
+                                <option value="Jasa Buat APK|25000|1">Jasa Buat APK (Rp 25.000, min 1)</option>
+                                <option value="Script JpmXshare|15000|1">Script JpmXshare (Rp 15.000, min 1)</option>
+                                <option value="Jasa Buat Script WA|10000|1">Jasa Buat Script WA (Rp 10.000, min 1)</option>
+                                <option value="APK BUG STORM X Per Hari|1000|1">APK BUG STORM X (Rp 1.000/hari, min 1)</option>
+                                <option value="APK BUG STORM 1 Bulan|9000|1">APK BUG STORM 1 Bulan (Rp 9.000)</option>
+                                <option value="APK BUG STORM Permanen|13000|1">APK BUG STORM Permanen (Rp 13.000)</option>
+                                <option value="APK BUG STORM RESSLER|18000|1">APK BUG STORM RESSLER (Rp 18.000)</option>
+                                <option value="ADMIN APK BUG STORM X|23000|1">ADMIN APK BUG STORM X (Rp 23.000)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah</label>
+                            <input type="number" id="waQty" value="1" min="1" onchange="updateWaTotal()" />
+                        </div>
+                        <div class="total-display" id="waTotalDisplay">Total: Rp 2.000</div>
+                        <a href="#" class="btn-wa-large" id="waSendBtn" target="_blank">
+                            <i class="fab fa-whatsapp fa-2x"></i>
+                            Kirim Bukti via WA (Otomatis)
+                        </a>
+                    </div>
+
+                    <div class="wa-divider">atau</div>
+
+                    <div class="wa-features">
+                        <div class="item"><i class="fas fa-check-circle"></i> Respon Cepat</div>
+                        <div class="item"><i class="fas fa-check-circle"></i> 24/7 Support</div>
+                        <div class="item"><i class="fas fa-check-circle"></i> Konsultasi Gratis</div>
+                        <div class="item"><i class="fas fa-check-circle"></i> Kirim Bukti Otomatis</div>
+                    </div>
+
+                    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--glass-border);">
+                        <p style="font-size:0.8rem;color:var(--gray-500);">
+                            <i class="fas fa-info-circle"></i> 
+                            Klik tombol di atas untuk langsung chat WhatsApp dengan pesan otomatis berisi detail pesanan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================================================================
+    QRIS MODAL
+    ================================================================ -->
+    <div class="qris-modal" id="qrisModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeQris()"><i class="fas fa-times"></i></button>
+            <div style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:8px;">
+                <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid var(--whatsapp);">
+                    <img src="https://files.catbox.moe/c1lke8.jpg" style="width:100%;height:100%;object-fit:cover;" />
+                </div>
+                <span style="font-weight:700;font-size:1.1rem;">SocialBoost</span>
+            </div>
+            <h4 style="font-size:1.2rem;margin-bottom:4px;">Scan QRIS untuk Bayar</h4>
+            <p style="color:var(--gray-400);font-size:0.85rem;">Bayar sesuai total pesanan Anda</p>
+
+            <div class="qr-image">
+                <img src="https://files.catbox.moe/owuza0.jpg" alt="QRIS Payment" />
+            </div>
+
+            <div class="order-summary" id="orderSummary">
+                <div class="row">
+                    <span class="label">Produk</span>
+                    <span class="value" id="summaryProduct">-</span>
+                </div>
+                <div class="row">
+                    <span class="label">Jumlah</span>
+                    <span class="value" id="summaryQty">-</span>
+                </div>
+                <div class="row">
+                    <span class="label">Harga Satuan</span>
+                    <span class="value" id="summaryPrice">-</span>
+                </div>
+                <div class="row">
+                    <span class="label">Total</span>
+                    <span class="value amount" id="summaryTotal">Rp 0</span>
+                </div>
+            </div>
+
+            <hr class="divider-line" />
+
+            <div class="action-buttons">
+                <button class="btn-copy" id="copyNominalBtn" onclick="copyNominal()">
+                    <i class="fas fa-copy"></i> Salin Nominal (Rp ...)
+                </button>
+                <a href="#" class="btn-wa-modal" id="modalWaBtn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Kirim Bukti via WA (Otomatis)
+                </a>
+                <button class="btn-success-payment" onclick="confirmPayment()">
+                    <i class="fas fa-check-circle"></i> Saya Sudah Bayar
+                </button>
+                <button class="btn-cancel-order" onclick="cancelOrder()">
+                    <i class="fas fa-times-circle"></i> Batalkan Pesanan
+                </button>
+            </div>
+
+            <div class="payment-info">
+                <i class="fas fa-info-circle"></i> 
+                1. <strong>Scan QRIS</strong> di aplikasi DANA/OVO/ShopeePay<br />
+                2. <strong>Salin nominal</strong> di atas, paste saat bayar<br />
+                3. Klik <strong>"Saya Sudah Bayar"</strong> setelah transfer
+            </div>
+
+            <button onclick="closeQris()" style="margin-top:12px;padding:10px 32px;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--glass-border);color:white;cursor:pointer;font-weight:600;font-family:inherit;transition:var(--transition);width:100%;">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- ================================================================
+    FOOTER
+    ================================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="social">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/6283187714996" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>&copy; 2026 <span>SocialBoost</span> — Jasa Suntik Sosial Media & APK Terpercaya</p>
+        </div>
+    </footer>
+
+    <!-- ================================================================
+    JAVASCRIPT
+    ================================================================ -->
+    <script>
+        // ================================================================
+        // LOADING SCREEN
+        // ================================================================
+        let loadingProgress = 0;
+        let loadingInterval;
+
+        function startLoading() {
+            const bar = document.getElementById('loading-bar');
+            const percent = document.getElementById('loading-percent');
+
+            loadingInterval = setInterval(() => {
+                loadingProgress += Math.random() * 4 + 1;
+                if (loadingProgress >= 100) {
+                    loadingProgress = 100;
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').classList.add('hide');
+                        document.body.style.overflow = 'auto';
+                    }, 500);
+                }
+                bar.style.width = loadingProgress + '%';
+                percent.textContent = Math.floor(loadingProgress) + '%';
+            }, 80);
+        }
+
+        function skipLoading() {
+            clearInterval(loadingInterval);
+            loadingProgress = 100;
+            document.getElementById('loading-bar').style.width = '100%';
+            document.getElementById('loading-percent').textContent = '100%';
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hide');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        startLoading();
+
+        // ================================================================
+        // TOAST NOTIFICATION
+        // ================================================================
+        function showToast(message, type = 'info', title = '') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-times-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+
+            const titles = {
+                success: 'Berhasil!',
+                error: 'Gagal!',
+                warning: 'Peringatan!',
+                info: 'Informasi'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                    <div class="toast-icon">
+                        <i class="fas ${icons[type] || icons.info}"></i>
+                    </div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title || titles[type] || 'Informasi'}</div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="toast-progress">
+                        <div class="fill"></div>
+                    </div>
+                `;
+
+            container.appendChild(toast);
+
+            // Auto remove after 4 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.transform = 'translateX(120%)';
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (toast.parentElement) toast.remove();
+                    }, 300);
+                }
+            }, 4000);
+
+            // Click to dismiss
+            toast.addEventListener('click', function() {
+                this.style.transform = 'translateX(120%)';
+                this.style.opacity = '0';
+                setTimeout(() => {
+                    if (this.parentElement) this.remove();
+                }, 300);
+            });
+        }
+
+        // ================================================================
+        // NAVIGATION
+        // ================================================================
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+            const target = document.getElementById('page-' + page);
+            if (target) {
+                target.classList.add('active');
+            }
+
+            document.querySelectorAll('.navbar-menu a, .navbar-mobile a').forEach(a => {
+                a.classList.toggle('active', a.dataset.page === page);
+            });
+
+            closeMobile();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (page === 'beranda') {
+                updateDashboard();
+                updateCartBadge();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            menu.classList.toggle('open');
+            hamburger.classList.toggle('active');
+            document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+        }
+
+        function closeMobile() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            menu.classList.remove('open');
+            hamburger.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (navbar) {
+                navbar.classList.toggle('scrolled', window.scrollY > 20);
+            }
+        });
+
+        // ================================================================
+        // PRODUCT CONFIG — 11 PRODUK
+        // ================================================================
+        const productConfig = {
+            ig: { name: 'Instagram Flower', price: 20, min: 100, qtyId: 'igQty', totalId: 'igTotal',
+                warningId: 'igWarning' },
+            wa: { name: 'Pengikut WhatsApp', price: 15, min: 50, qtyId: 'waQty', totalId: 'waTotal',
+                warningId: 'waWarning' },
+            tt: { name: 'TikTok Flower', price: 25, min: 50, qtyId: 'ttQty', totalId: 'ttTotal',
+                warningId: 'ttWarning' },
+            apk: { name: 'Jasa Buat APK', price: 25000, min: 1, qtyId: 'apkQty', totalId: 'apkTotal',
+                warningId: 'apkWarning' },
+            script: { name: 'Script JpmXshare', price: 15000, min: 1, qtyId: 'scriptQty', totalId: 'scriptTotal',
+                warningId: 'scriptWarning' },
+            scwa: { name: 'Jasa Buat Script WA', price: 10000, min: 1, qtyId: 'scwaQty', totalId: 'scwaTotal',
+                warningId: 'scwaWarning' },
+            bugday: { name: 'APK BUG STORM X Per Hari', price: 1000, min: 1, qtyId: 'bugdayQty', totalId: 'bugdayTotal',
+                warningId: 'bugdayWarning' },
+            bugmonth: { name: 'APK BUG STORM 1 Bulan', price: 9000, min: 1, qtyId: 'bugmonthQty',
+                totalId: 'bugmonthTotal', warningId: 'bugmonthWarning' },
+            bugperm: { name: 'APK BUG STORM Permanen', price: 13000, min: 1, qtyId: 'bugpermQty',
+                totalId: 'bugpermTotal', warningId: 'bugpermWarning' },
+            bugress: { name: 'APK BUG STORM RESSLER', price: 18000, min: 1, qtyId: 'bugressQty',
+                totalId: 'bugressTotal', warningId: 'bugressWarning' },
+            bugadmin: { name: 'ADMIN APK BUG STORM X', price: 23000, min: 1, qtyId: 'bugadminQty',
+                totalId: 'bugadminTotal', warningId: 'bugadminWarning' }
+        };
+
+        // ================================================================
+        // UPDATE TOTAL
+        // ================================================================
+        function updateTotal(product) {
+            const config = productConfig[product];
+            if (!config) return;
+            const qty = parseInt(document.getElementById(config.qtyId).value) || 0;
+            const total = qty * config.price;
+            const totalEl = document.getElementById(config.totalId);
+            const warningEl = document.getElementById(config.warningId);
+
+            if (qty < config.min) {
+                warningEl.classList.add('show');
+                totalEl.textContent = `Rp ${total.toLocaleString()}`;
+            } else {
+                warningEl.classList.remove('show');
+                totalEl.textContent = `Rp ${total.toLocaleString()}`;
+            }
+
+            if (qty < config.min) {
+                document.getElementById(config.qtyId).value = config.min;
+                updateTotal(product);
+            }
+        }
+
+        // ================================================================
+        // BUY PRODUCT
+        // ================================================================
+        let orderCount = 0;
+        let pendingOrder = null;
+
+        function buyProduct(product) {
+            const config = productConfig[product];
+            if (!config) return;
+            const qty = parseInt(document.getElementById(config.qtyId).value) || 0;
+            const total = qty * config.price;
+
+            if (qty < config.min) {
+                document.getElementById(config.warningId).classList.add('show');
+                return;
+            }
+
+            // Simpan pending order
+            pendingOrder = {
+                product: config.name,
+                qty: qty,
+                total: total,
+                config: config
+            };
+
+            const modal = document.getElementById('qrisModal');
+            document.getElementById('summaryProduct').textContent = config.name;
+            document.getElementById('summaryQty').textContent = qty.toLocaleString();
+            document.getElementById('summaryPrice').textContent = `Rp ${config.price.toLocaleString()}`;
+            document.getElementById('summaryTotal').textContent = `Rp ${total.toLocaleString()}`;
+
+            const copyBtn = document.getElementById('copyNominalBtn');
+            const totalStr = total.toLocaleString();
+            copyBtn.innerHTML = `<i class="fas fa-copy"></i> Salin Nominal (Rp ${totalStr})`;
+            copyBtn.dataset.amount = total;
+
+            const waMsg =
+                `Halo SocialBoost! Saya ingin mengirim bukti transfer untuk pesanan berikut:%0A%0A📦 *Produk:* ${config.name}%0A📊 *Jumlah:* ${qty} pcs%0A💰 *Total:* Rp ${total.toLocaleString()}%0A%0A📸 *Bukti Transfer:* (saya lampirkan di sini)%0A%0ATerima kasih!`;
+            document.getElementById('modalWaBtn').href = `https://wa.me/6283187714996?text=${waMsg}`;
+
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ================================================================
+        // KONFIRMASI PEMBAYARAN + ANIMASI + WA OTOMATIS + TOAST
+        // ================================================================
+        function confirmPayment() {
+            if (!pendingOrder) {
+                showToast('Tidak ada pesanan yang sedang diproses!', 'error', '❌ Gagal');
+                return;
+            }
+
+            if (!confirm(
+                    `✅ Konfirmasi bahwa Anda sudah membayar pesanan berikut:%0A%0A📦 ${pendingOrder.product}%0A📊 ${pendingOrder.qty} pcs%0A💰 Rp ${pendingOrder.total.toLocaleString()}%0A%0AApakah Anda yakin?`
+                    )) {
+                return;
+            }
+
+            // Simpan ke riwayat dengan status "Sudah Bayar"
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push({
+                id: Date.now(),
+                product: pendingOrder.product,
+                qty: pendingOrder.qty,
+                total: pendingOrder.total,
+                date: new Date().toLocaleString('id-ID'),
+                status: 'Sudah Bayar'
+            });
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Reset pending order
+            const orderData = { ...pendingOrder };
+            pendingOrder = null;
+
+            // Tutup modal QRIS
+            closeQris();
+
+            // === TAMPILKAN ANIMASI CENTANG ===
+            const overlay = document.getElementById('successOverlay');
+            overlay.classList.add('open');
+
+            // Update dashboard
+            updateDashboard();
+            updateCartBadge();
+
+            // === TAMPILKAN TOAST SUCCESS ===
+            showToast(`Pesanan ${orderData.product} (${orderData.qty} pcs) berhasil!`, 'success', '✅ Pembayaran Berhasil');
+
+            // Kirim notifikasi ke admin (dengan delay sedikit)
+            setTimeout(() => {
+                const adminMsg =
+                    `✅ *PEMBAYARAN BERHASIL*%0A%0A📦 Produk: ${orderData.product}%0A📊 Jumlah: ${orderData.qty} pcs%0A💰 Total: Rp ${orderData.total.toLocaleString()}%0A📅 Tanggal: ${new Date().toLocaleString('id-ID')}%0A%0A📌 Status: SUDAH BAYAR - Segera proses!`;
+                window.open(`https://wa.me/6283187714996?text=${adminMsg}`, '_blank');
+            }, 500);
+
+            // === SETELAH 2.5 DETIK, TUTUP ANIMASI DAN BUKA WA ===
+            setTimeout(() => {
+                // Tutup overlay
+                overlay.classList.remove('open');
+
+                // Kirim bukti transfer otomatis via WA (untuk pelanggan)
+                const waMsg =
+                    `Halo SocialBoost! Saya sudah melakukan pembayaran untuk pesanan berikut:%0A%0A📦 *Produk:* ${orderData.product}%0A📊 *Jumlah:* ${orderData.qty} pcs%0A💰 *Total:* Rp ${orderData.total.toLocaleString()}%0A%0A📸 *Bukti Transfer:* (saya lampirkan di sini)%0A%0ATerima kasih!`;
+                window.open(`https://wa.me/6283187714996?text=${waMsg}`, '_blank');
+
+                // Toast tambahan
+                showToast('WhatsApp terbuka, kirim bukti transfer ya!', 'info', '💬 Cek WhatsApp');
+            }, 2500);
+        }
+
+        // ================================================================
+        // BATAL PESANAN + TOAST
+        // ================================================================
+        function cancelOrder() {
+            if (!pendingOrder) {
+                closeQris();
+                return;
+            }
+
+            if (confirm(
+                    `❌ Yakin ingin membatalkan pesanan ${pendingOrder.product} (${pendingOrder.qty} pcs) senilai Rp ${pendingOrder.total.toLocaleString()}?`
+                    )) {
+                const productName = pendingOrder.product;
+                pendingOrder = null;
+                closeQris();
+                showToast(`Pesanan ${productName} dibatalkan`, 'warning', '⏹️ Dibatalkan');
+            }
+        }
+
+        // ================================================================
+        // COPY NOMINAL + TOAST
+        // ================================================================
+        function copyNominal() {
+            const totalEl = document.getElementById('summaryTotal');
+            const totalText = totalEl.textContent.replace('Rp ', '').replace(/\./g, '');
+            const total = parseInt(totalText) || 0;
+
+            if (total === 0) {
+                showToast('Tidak ada nominal untuk disalin!', 'error', '❌ Gagal');
+                return;
+            }
+
+            navigator.clipboard.writeText(total.toString()).then(() => {
+                const btn = document.getElementById('copyNominalBtn');
+                btn.classList.add('copied');
+                btn.innerHTML = `<i class="fas fa-check"></i> Nominal Disalin! (Rp ${total.toLocaleString()})`;
+                showToast(`Nominal Rp ${total.toLocaleString()} disalin!`, 'success', '📋 Berhasil');
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML =
+                        `<i class="fas fa-copy"></i> Salin Nominal (Rp ${total.toLocaleString()})`;
+                }, 3000);
+            }).catch(() => {
+                const input = document.createElement('input');
+                input.value = total.toString();
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+
+                const btn = document.getElementById('copyNominalBtn');
+                btn.classList.add('copied');
+                btn.innerHTML = `<i class="fas fa-check"></i> Nominal Disalin! (Rp ${total.toLocaleString()})`;
+                showToast(`Nominal Rp ${total.toLocaleString()} disalin!`, 'success', '📋 Berhasil');
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML =
+                        `<i class="fas fa-copy"></i> Salin Nominal (Rp ${total.toLocaleString()})`;
+                }, 3000);
+            });
+        }
+
+        // ================================================================
+        // CLOSE QRIS MODAL
+        // ================================================================
+        function closeQris() {
+            document.getElementById('qrisModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('qrisModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cancelOrder();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cancelOrder();
+            }
+        });
+
+        // ================================================================
+        // DASHBOARD
+        // ================================================================
+        function updateDashboard() {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+
+            const totalOrders = document.getElementById('totalOrders');
+            const totalRevenue = document.getElementById('totalRevenue');
+            const history = document.getElementById('orderHistory');
+
+            if (totalOrders) totalOrders.textContent = orders.length;
+
+            const revenue = orders.reduce((sum, o) => sum + o.total, 0);
+            if (totalRevenue) totalRevenue.textContent = `Rp ${revenue.toLocaleString()}`;
+
+            if (orders.length === 0) {
+                if (history) history.innerHTML =
+                    '<p style="color:var(--gray-500);text-align:center;padding:16px 0;font-size:0.85rem;">Belum ada pesanan</p>';
+            } else {
+                if (history) {
+                    history.innerHTML = orders.slice().reverse().slice(0, 20).map(o => `
+                            <div class="order-item">
+                                <span class="date">${o.date}</span>
+                                <span class="product">${o.product}</span>
+                                <span class="qty">${o.qty} pcs</span>
+                                <span class="total">Rp ${o.total.toLocaleString()}</span>
+                                <span class="status"><i class="fas fa-check-circle"></i> Sudah Bayar</span>
+                            </div>
+                        `).join('');
+                }
+            }
+        }
+
+        // ================================================================
+        // CART BADGE
+        // ================================================================
+        function updateCartBadge() {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const badge = document.getElementById('cartBadge');
+            if (badge) badge.textContent = orders.length;
+        }
+
+        // ================================================================
+        // WHATSAPP FORM
+        // ================================================================
+        function updateWaTotal() {
+            const select = document.getElementById('waProduct');
+            const qtyInput = document.getElementById('waQty');
+            const totalDisplay = document.getElementById('waTotalDisplay');
+            const sendBtn = document.getElementById('waSendBtn');
+
+            const [name, priceStr, minStr] = select.value.split('|');
+            const price = parseInt(priceStr);
+            const min = parseInt(minStr);
+            let qty = parseInt(qtyInput.value) || min;
+            if (qty < min) qty = min;
+            qtyInput.value = qty;
+
+            const total = qty * price;
+            totalDisplay.textContent = `Total: Rp ${total.toLocaleString()}`;
+
+            const waMsg =
+                `Halo SocialBoost! Saya ingin mengirim bukti transfer untuk pesanan berikut:%0A%0A📦 *Produk:* ${name}%0A📊 *Jumlah:* ${qty} pcs%0A💰 *Total:* Rp ${total.toLocaleString()}%0A%0A📸 *Bukti Transfer:* (saya lampirkan di sini)%0A%0ATerima kasih!`;
+            sendBtn.href = `https://wa.me/6283187714996?text=${waMsg}`;
+        }
+
+        // ================================================================
+        // WHATSAPP FLOATING BUBBLE - PULSE RING
+        // ================================================================
+        // Pulse ring sudah di CSS
+
+        // ================================================================
+        // INIT
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            Object.keys(productConfig).forEach(key => updateTotal(key));
+            updateDashboard();
+            updateCartBadge();
+            updateWaTotal();
+
+            // Test toast
+            // showToast('Selamat datang di SocialBoost!', 'info', '👋 Halo!');
+
+            console.log('🚀 SocialBoost — 11 Produk + Live Chat Bubble + Toast Notification!');
+            console.log('💚 WhatsApp: 6283187714996');
+            console.log('✅ Fitur baru: WhatsApp Floating Bubble & Toast Notifikasi');
+        });
+    </script>
+
+</body>
+</html>
